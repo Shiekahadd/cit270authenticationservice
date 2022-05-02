@@ -1,7 +1,12 @@
-const express = require('express'); //import the library
+const express = require('express');
+const port = 3000;
+const app = express(); //import the library
 
-const app = express(); //use the library
+app.listen(port, ()=>{
+    console.log("Listening on port: "+port); 
+})
 
-app.listen(3000,()=>{console.log("listening...")}); //listen
+app.get('/',(request,response)=>{response.send("Hello")}); //responds
 
-app.get('/',(request,response)=>{response.send("Hello")}); //respond
+
+
