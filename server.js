@@ -15,8 +15,9 @@ app.post('/login',(request,response)=>{//a post is when a client sends new infor
 const loginRequest = request.body;
 console.log("Request Body", JSON.stringify(request.body));
 
-if (loginRequest.userName=="sali@gmail.com" && loginRequest.password=="Dist1#"){
+if (loginRequest.userName=="sali@gmail.com" && loginRequest.password=="Digt1#"){
     response.status(200); //200 means OK
+    response.send("Welcome");
 } else{ 
     response.status(401); //401 means unauthorized
     response.send("Unauthorized");
@@ -24,6 +25,7 @@ if (loginRequest.userName=="sali@gmail.com" && loginRequest.password=="Dist1#"){
 });
 
 app.get('/',(request,response)=>{//every time something calls your API that is a request
+
     response.send("Hello");}) //a response is when the API gives the information requested
 
 
