@@ -3,43 +3,33 @@ const bodyParser = require('body-parser'); //body parser is called middleware
 const port = 3000;
 const app = express(); //import the library
 const md5 = require('md5');
-const redis = require('redis');
+const {createClient} = require('redis');
 
-const redisClient = redis.createClient(); 
+
+const redisClient = createClient(); 
 
 
 app.use(bodyParser.json()); //use the middleware (call it before anything else happens on each request)
 
 app.listen(port, ()=>{
     console.log("Listening on port: "+port); 
-})
-
-
-
-app.post('/login', async(request,response)=>{//a post is when a client sends new information to an API
-
-    const requestHashedPassword = md5(request.body.password);
-    const redisHashedPassword= await redisClient.hGet('Digt1#',request.body.userName);
-const loginRequest = request.body;
-console.log("Request Body", JSON.stringify(request.body));
-//search database for username, and retrieve current password
-
-//compare the hashed version of the password that was sent with the hashed version from the database
-
-if (loginRequest.userName=="sali@gmail.com" && loginRequest.password=="Digt1#"){
-    response.status(200); //200 means OK
-    response.send("Welcome");
-} else{ 
-    response.status(401); //401 means unauthorized
-    response.send("Unauthorized");
-}
 });
 
-const validatePassword = async (request, response)=> {}
+app.get('/', (request,response)=>{
+    response.send("Hello");
 
-app.get('/',(request,response)=>{//every time something calls your API that is a request
+});
 
-    response.send("Hello");}) //a response is when the API gives the information requested
-
+app.post('/login', async(request,response)=>{
+    redisClient.connect();
+    const redisHashedPassword = await redisClient.hGet('passwords',request.body.userName);
+    const userHashedPassword = md5(request.body.password); 
+      if (userHashedPassword == redisHashedPassword) {
+        response.status(200); //200 means OK
+        response.send('Welcome');
+    } else {
+        response.status(401); //401 means unauthorized
+        response.send('Unauthorized');
+ }});
 
 
