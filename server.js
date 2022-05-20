@@ -15,17 +15,18 @@ const redisClient = createClient(
     }
 ); 
 
- redisClient.connect(); //await redis.Client.connect(); //creating a TCP socket with Redis
+
 
 
 app.use(bodyParser.json()); //use the middleware (call it before anything else happens on each request)
 
-app.listen(port, ()=>{
+app.listen(port, async ()=>{
+    await redisClient.connect();//creating a TCP socket with Redis
     console.log("Listening on port: "+port); 
 });
 
 const validatePassword = async (request, response)=> {
-    
+     //await redis.Client.connect(); //creating a TCP socket with Redis
     const requestHashPassword = md5(request.body.password); //get the password from the body and hash it.
     const redisHashPassword = await redisClient.hmGet('passwords', request.body.userName);
     const loginRequest = request.body;
