@@ -1,5 +1,2 @@
 node_modules
 dump.rdb 
-server.key
-*.key
-server.cert
