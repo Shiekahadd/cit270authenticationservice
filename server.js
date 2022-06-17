@@ -8,16 +8,7 @@ const bodyParser = require('body-parser'); //body parser is called middleware. R
 const {createClient} = require('redis'); //This is called destructuring.
 const { fstat } = require('fs');
 
-
-const redisClient = createClient(
-    {  socket:{
-        port:6379,
-        host:"127.0.0.1",
-
-         },
-    }
-); 
-
+const client = createClient({ url: 'redis://default:@10.128.0.2:6379', }); //This 
 
 
 
