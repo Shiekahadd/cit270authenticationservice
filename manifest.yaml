@@ -44,6 +44,7 @@ spec:
               path: /
               #This is the port to use to see if my API is running
               port: 443
+              scheme: HTTPS
             initalDelaySeconds: 3
             periodSeconds: 3
           readinessProbe:
@@ -52,8 +53,20 @@ spec:
               path: /
             #This is the port to use to see if my API has started
               port: 443
+              scheme: HTTPS
             initialDelaySeconds: 3
             periodSeconds: 3
 
             #This is the start of a new document for the Load Balancer
-           
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: shiekahadd-cit270-loadbalancer
+spec:
+  selector:
+    app: shiekahadd-cit270
+  type: LoadBalancer
+  ports:
+  - port: 80
+  targetPort: 3000          
