@@ -1,6 +1,6 @@
 #2021 CIT270
 #version of Kubernetes API we are using
-apiversion: apps/v1
+apiVersion: apps/v1
 #This can be a statefulset, or a deployment, a deployment doesn't need a hard drive that sticks around
 kind: Deployment
 metadata:
