@@ -14,14 +14,19 @@ const redisClient = createClient({ url: 'redis://default:@35.223.220.69:6379', }
 
 app.use(bodyParser.json()); //use the middleware (call it before anything else happens on each request)
 
-https.createServer({
-    key: fs.readFileSync('server.key'),
-    cert: fs.readFileSync('server.cert'),
-    passphrase: 'P@ssw0rd'
-}, app).listen(port, async ()=>{
-    await redisClient.connect();//creating a TCP socket with Redis
-    console.log("Listening on port: "+port); 
-});
+// https.createServer({
+//     key: fs.readFileSync('server.key'),
+//     cert: fs.readFileSync('server.cert'),
+//     passphrase: 'P@ssw0rd'
+// }, app).listen(port, async ()=>{
+//     await redisClient.connect();//creating a TCP socket with Redis
+//     console.log("Listening on port: "+port); 
+// });
+
+app.listen(port, async()=>{
+    await redisClient.connect();
+    console.log('Listening on port: ' ,port); 
+})
 
 const validatePassword = async (request, response)=> {
      //await redis.Client.connect(); //creating a TCP socket with Redis
