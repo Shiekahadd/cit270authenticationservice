@@ -1,0 +1,22 @@
+---
+    apiVersion: networking.k8s.io/v1beta1
+    kind: Ingress
+    metadata:
+      name: shiekahadd-ingress
+      namespace: default
+      annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /
+      kubernetes.io/ingress.class: "nginx"
+      cert-manager.io/cluster-issuer: "letsencrypt-cluster-issuer"
+    spec:
+      tls:
+      - hosts:
+        - shiekahaddali.cit270.com
+        secretName: shiekahadd-dev-tls
+      rules:
+      - host: shiekahaddali.cit270.com 
+        http:
+          paths:
+          - backend:
+              serviceName: shiekahadd-loadbalancer
+              servicePort: 80
